@@ -3,11 +3,16 @@ import './Login.css'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
 import { login1 } from '../Redux/action'
-import { useDispatch } from 'react-redux'
+import { useDispatch , useSelector} from 'react-redux'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 const Login = () => {
+ const username=useSelector((state)=>state.Map.userId)
+
+  console.log(username)
   const dispatch=useDispatch()
   const navigate=useNavigate()
   const [user, setUser] = useState({
@@ -27,17 +32,26 @@ const Login = () => {
     axios.post('http://localhost:1020/login', user).then((res) => {
       console.log(res.data)
       dispatch(login1(res.data.user.name))
-        alert(res.data.message)
-        navigate("/")
+      toast(`Successfully Logged In `,{
+        type:"success"
+      })
+    setTimeout(()=>{
+      navigate('/')
+  },3000)
+
+        // navigate("/")
  
     }).catch(function(err){
-      alert("invalid credentials")
+      toast("Invalid Credential",{
+        type:"error"
+    })
     })
   }
 
 
   return (
     <div className="login">
+      <ToastContainer />
       <h1 >Login</h1>
       <input
         type="text"
@@ -55,20 +69,21 @@ const Login = () => {
       ></input>
      
         {' '}
-        <div  onClick={()=>{login()}}>
+        <div className='button-log' onClick={()=>{login()}}>
          Login
         </div>
   
 
-      <div>or</div>
-      <Link to="/register">
-        <div className="button">
+      <div className='or_name' >OR</div>
+      <Link to="/register" className='link' >
+        <div className ="button-res" >
           Register
         </div>
       </Link>
+      
     </div>
    
   )
 }
 
-export default Login
+export default Login ;

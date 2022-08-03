@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import './Register.css'
 import axios from 'axios'
 import { Link, useNavigate } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const Register = () => {
@@ -27,20 +29,33 @@ const Register = () => {
       axios.post('http://localhost:1020/register', user).then((res) => {
 
        if(res.data.message==="Successfully Registerd"){
-                    alert(res.data.message)
-                    navigate("/login")
+
+        toast("Successfully Registered",{
+          type:"success"
+      })
+      setTimeout(()=>{
+        navigate('/login')
+    },3000)
+
+                    // navigate("/login")
                 }else{
-                    alert("Invalid  registration Credentials")
+            
+                    toast("Invalid  registration Credentials",{
+                      type:"error"
+                  })
                 }
                 console.log(res)
       })
     } else {
-      alert('invalid input')
+      toast("Invalid  registration Credentials",{
+        type:"error"
+    })
     }
   }
 
   return (
     <div className="register">
+      <ToastContainer />
       <h1 >Register</h1>
       <input
         type="text"
@@ -71,23 +86,21 @@ const Register = () => {
         onChange={handleChange}
       ></input>
       
-        <div
-        
-          onClick={register}
-        >
+        <div onClick={register} className= "button-res" >
           Register
         </div>
    
-      <div>or</div>
-      <Link to="/login">
-        <div>
+      <div className='or_name' >OR</div>
+      <Link to="/login" className='link'>
+        <div className='button-log' >
           Login
         </div>
       </Link>
+ 
     </div>
   )
 }
 
-export default Register
+export default Register ;
 
 

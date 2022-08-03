@@ -8,7 +8,7 @@ export const Navbar = () => {
       <section className="navbar">
       <nav className="navbar__container">
         <Link to="/" className="links">
-          <h1 className="site-logo">SYNCTHREAD'S</h1>
+          <h1 className="site-logo">SYNC_THREAD'S</h1>
         </Link>
 
         <Link to="/Register" className="links">
