@@ -29,7 +29,7 @@ const Login = () => {
   }
 
   const login = () => {
-    axios.post('http://localhost:1020/login', user).then((res) => {
+    axios.post('https://syncthreads.herokuapp.com/login', user).then((res) => {
       console.log(res.data)
       dispatch(login1(res.data.user.name))
       toast(`Successfully Logged In `,{

@@ -1,62 +1,60 @@
-import React, { useState } from 'react'
-import './Register.css'
-import axios from 'axios'
-import { Link, useNavigate } from 'react-router-dom'
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
+import React, { useState } from "react";
+import "./Register.css";
+import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState({
-    name: '',
-    email: '',
-    password: '',
-    reEnterPassword: '',
-  })
+    name: "",
+    email: "",
+    password: "",
+    reEnterPassword: "",
+  });
 
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setUser({
       ...user,
       [name]: value,
-    })
-  }
+    });
+  };
 
   const register = () => {
-    const { name, email, password, reEnterPassword } = user
+    const { name, email, password, reEnterPassword } = user;
     if (name && email && password && password === reEnterPassword) {
-      axios.post('http://localhost:1020/register', user).then((res) => {
+      axios
+        .post("https://syncthreads.herokuapp.com/register", user)
+        .then((res) => {
+          if (res.data.message === "Successfully Registerd") {
+            toast("Successfully Registered", {
+              type: "success",
+            });
+            setTimeout(() => {
+              navigate("/login");
+            }, 3000);
 
-       if(res.data.message==="Successfully Registerd"){
-
-        toast("Successfully Registered",{
-          type:"success"
-      })
-      setTimeout(()=>{
-        navigate('/login')
-    },3000)
-
-                    // navigate("/login")
-                }else{
-            
-                    toast("Invalid  registration Credentials",{
-                      type:"error"
-                  })
-                }
-                console.log(res)
-      })
+            // navigate("/login")
+          } else {
+            toast("Invalid  registration Credentials", {
+              type: "error",
+            });
+          }
+          console.log(res);
+        });
     } else {
-      toast("Invalid  registration Credentials",{
-        type:"error"
-    })
+      toast("Invalid  registration Credentials", {
+        type: "error",
+      });
     }
-  }
+  };
 
   return (
     <div className="register">
       <ToastContainer />
-      <h1 >Register</h1>
+      <h1>Register</h1>
       <input
         type="text"
         name="name"
@@ -85,22 +83,17 @@ const Register = () => {
         placeholder="Re-enter Password"
         onChange={handleChange}
       ></input>
-      
-        <div onClick={register} className= "button-res" >
-          Register
-        </div>
-   
-      <div className='or_name' >OR</div>
-      <Link to="/login" className='link'>
-        <div className='button-log' >
-          Login
-        </div>
+
+      <div onClick={register} className="button-res">
+        Register
+      </div>
+
+      <div className="or_name">OR</div>
+      <Link to="/login" className="link">
+        <div className="button-log">Login</div>
       </Link>
- 
     </div>
-  )
-}
+  );
+};
 
-export default Register ;
-
-
+export default Register;
